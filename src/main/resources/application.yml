@@ -1,0 +1,18 @@
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hackernews?serverTimezone=GMT
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  config-location: classpath:mybaits.xml
+
+server:
+  servlet:
+    context-path: /MyNews
+  port: 80
+
+
