@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("MyNews")
+@RequestMapping("wangdaonews")
 public class NewsController {
 
 

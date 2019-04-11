@@ -3,15 +3,17 @@ package com.cskaoyan.hankernews.controller;
 import com.cskaoyan.hankernews.bean.User;
 import com.cskaoyan.hankernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
@@ -39,6 +41,7 @@ public class UserController {
     }
 
     @RequestMapping("/login")
+    @ResponseBody
     public Map login(String username, String password, HttpSession session) {
         User user = userService.login(username, password);
         HashMap map = new HashMap();
@@ -51,5 +54,15 @@ public class UserController {
             map.put("msgname", "登陆成功");
         }
         return map;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        Enumeration em =session.getAttributeNames();
+        while(em.hasMoreElements()){
+            session.removeAttribute(em.nextElement().toString());
+        }
+        return "redirect:/wangdaonews/";
+
     }
 }
