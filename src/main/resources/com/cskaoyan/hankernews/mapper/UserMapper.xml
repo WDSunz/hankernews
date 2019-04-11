@@ -14,4 +14,21 @@
     where
     uid=#{uid}
     </select>
+    <insert id="registUser" parameterType="java.lang.String" >
+        INSERT INTO user(name,password) VALUES(#{username},#{password})
+    </insert>
+    <select id="isUserExit" resultType="user">
+        select
+        *
+        from
+        user
+        where name=#{username}
+    </select>
+    <select id="findUserByUsernameAndPassword" resultType="user">
+        select
+        *
+        from
+        user
+        where name=#{username} and password=#{password}
+    </select>
 </mapper>

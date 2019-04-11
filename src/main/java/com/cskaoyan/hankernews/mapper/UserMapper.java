@@ -9,4 +9,11 @@ public interface UserMapper {
 
 
     public User queryUserByUid(@Param("uid") String uid);
+
+    int registUser(String username, @Param("password") String password);
+
+    User isUserExit(@Param("username") String username);
+
+    User findUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
 }

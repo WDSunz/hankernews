@@ -11,8 +11,6 @@ mybatis:
   config-location: classpath:mybaits.xml
 
 server:
-  servlet:
-    context-path: /MyNews
   port: 80
 
 
