@@ -3,15 +3,26 @@ package com.cskaoyan.hankernews.bean;
 import com.cskaoyan.hankernews.bean.User;
 
 public class Vos {
+    int like;
     User user;
     News news;
+
 
     public Vos() {
     }
 
-    public Vos(User user, News news) {
+    public Vos(int like, User user, News news) {
+        this.like = like;
         this.user = user;
         this.news = news;
+    }
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
     }
 
     public User getUser() {
@@ -33,7 +44,8 @@ public class Vos {
     @Override
     public String toString() {
         return "Vos{" +
-                "user=" + user +
+                "like=" + like +
+                ", user=" + user +
                 ", news=" + news +
                 '}';
     }

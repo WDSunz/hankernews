@@ -5,9 +5,46 @@
 <mapper namespace="com.cskaoyan.hankernews.mapper.NewsMapper">
 
     <select id="quaryAllNews" resultType="com.cskaoyan.hankernews.bean.News">
-   select
-   *
-   from
-   news
+    select
+    *
+    from  news
     </select>
+
+    <insert id="addNews" parameterType="com.cskaoyan.hankernews.bean.News">
+    insert into news(title,link,image,like_count,comment_count,created_date,user_id)
+    values(#{title},#{link},#{image},0,0,#{date},#{id})
+    </insert>
+
+    <resultMap id="userAndNewsAndLikeVos" type="com.cskaoyan.hankernews.bean.Vos">
+        <association property="user" javaType="com.cskaoyan.hankernews.bean.User">
+            <id column="uid" property="id"></id>
+            <result column="name" property="name"></result>
+            <result column="passowrd" property="passowrd"></result>
+            <result column="salt" property="salt"></result>
+            <result column="head_url" property="headUrl"></result>
+        </association>
+        <association property="news" javaType="com.cskaoyan.hankernews.bean.News">
+            <id column="id" property="id"></id>
+            <id column="title" property="title"></id>
+            <id column="link" property="link"></id>
+            <id column="image" property="image"></id>
+            <id column="like_count" property="likeCount"></id>
+            <id column="comment_count" property="commentCount"></id>
+            <id column="created_date" property="createdDate"></id>
+            <id column="user_id" property="userId"></id>
+        </association>
+    </resultMap>
+    
+    <select id="quaryAllNewsAndUser" resultMap="userAndNewsAndLikeVos">
+        select
+        news.*,
+        `user`.id uid,
+        `user`.`name`,
+        `user`.`password`,
+        `user`.salt,
+        `user`.head_url
+        from `user`,news
+        where `user`.id=news.user_id
+    </select>
+
 </mapper>

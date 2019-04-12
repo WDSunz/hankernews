@@ -3,7 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.hankernews.mapper.UserMapper">
-
+    <select id="findAllUser" resultType="user">
+        select * from user
+    </select>
     <select id="queryUserByUid" resultType="com.cskaoyan.hankernews.bean.User">
     select
     uid,
@@ -15,7 +17,7 @@
     uid=#{uid}
     </select>
     <insert id="registUser" parameterType="java.lang.String" >
-        INSERT INTO user(name,password) VALUES(#{username},#{password})
+        INSERT INTO user(name,password,head_url) VALUES(#{username},#{password},'http://localhost/test.jpg')
     </insert>
     <select id="isUserExit" resultType="user">
         select

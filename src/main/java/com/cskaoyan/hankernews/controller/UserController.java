@@ -62,7 +62,11 @@ public class UserController {
         while(em.hasMoreElements()){
             session.removeAttribute(em.nextElement().toString());
         }
-        return "redirect:/wangdaonews/";
+        return "redirect:/";
 
     }
+
+
+
+
 }
