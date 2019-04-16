@@ -14,4 +14,6 @@ public interface NewsMapper {
     List<Vos> quaryAllNewsAndUser();
 
     int addNews(@Param("image") String image, @Param("title")String title, @Param("link")String link, @Param("date") Date date, @Param("id")int id);
+
+    News findNewsById(String id);
 }

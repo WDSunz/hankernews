@@ -4,10 +4,13 @@ import com.cskaoyan.hankernews.bean.User;
 import com.cskaoyan.hankernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -57,14 +60,28 @@ public class UserController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpSession session){
-        Enumeration em =session.getAttributeNames();
-        while(em.hasMoreElements()){
-            session.removeAttribute(em.nextElement().toString());
-        }
-        return "redirect:/";
+    public String logout(HttpServletRequest request,HttpSession session,Model model){
+        session.removeAttribute("user");
+        return "redirect:/home";
 
     }
+
+    @RequestMapping("/user/{id}")
+    public String person(@PathVariable String id, Model model, HttpServletRequest request){
+        User user = userService.findUserById(id);
+        String contextPath = request.getContextPath();
+        model.addAttribute("contextPath",contextPath);
+     /*   model.addAttribute("user",user);
+
+        System.out.println(user);
+        System.out.println(user);
+        System.out.println(user);*/
+        return "personal" ;
+    }
+
+
+
+
 
 
 

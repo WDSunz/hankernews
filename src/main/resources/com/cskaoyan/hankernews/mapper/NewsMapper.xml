@@ -19,7 +19,7 @@
         <association property="user" javaType="com.cskaoyan.hankernews.bean.User">
             <id column="uid" property="id"></id>
             <result column="name" property="name"></result>
-            <result column="passowrd" property="passowrd"></result>
+            <result column="password" property="password"></result>
             <result column="salt" property="salt"></result>
             <result column="head_url" property="headUrl"></result>
         </association>
@@ -40,11 +40,18 @@
         news.*,
         `user`.id uid,
         `user`.`name`,
-        `user`.`password`,
+        `user`.`password` password,
         `user`.salt,
         `user`.head_url
         from `user`,news
         where `user`.id=news.user_id
+    </select>
+    <select id="findNewsById" resultType="news">
+        select
+        *
+        from
+        news
+        where id=#{id}
     </select>
 
 </mapper>

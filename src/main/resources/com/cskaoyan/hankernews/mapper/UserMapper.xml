@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.hankernews.mapper.UserMapper">
+    <resultMap id="oneUser" type="com.cskaoyan.hankernews.bean.User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="password" property="password"></result>
+        <result column="salt" property="salt"></result>
+        <result column="head_url" property="headUrl"></result>
+    </resultMap>
     <select id="findAllUser" resultType="user">
         select * from user
     </select>
@@ -32,5 +39,18 @@
         from
         user
         where name=#{username} and password=#{password}
+    </select>
+    <select id="findUserById" resultType="user">
+        select
+        *
+        from
+        `user`
+        where id=#{id}
+    </select>
+    <select id="findUserByNewsId" resultType="user">
+        select `user`.* from `user` where `user`.id=(SELECT news.user_id FROM news where news.id=#{id})
+    </select>
+    <select id="findUserByname" resultMap="oneUser">
+        select * from `user` where `user`.name=#{name}
     </select>
 </mapper>

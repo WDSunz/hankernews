@@ -7,4 +7,10 @@ public interface UserService {
     int registUser(String username, String password);
 
     User login(String username, String password);
+
+    User findUserById(String id);
+
+    User findUserByNewsId(String id);
+
+    User findUserByname(String toName);
 }

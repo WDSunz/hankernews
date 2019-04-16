@@ -19,4 +19,9 @@ public interface UserMapper {
 
     User findUserByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
+    User findUserById(@Param("id")String id);
+
+    User findUserByNewsId(@Param("id") String id);
+
+    User findUserByname(@Param("name") String toName);
 }

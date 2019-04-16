@@ -12,5 +12,13 @@ public interface NewsService {
     int createNews(String image, String title, String link, Date date,int id);
 
     List<Vos> quaryAllNewsAndUser();
+
+    News findNewsById(String id);
+
+    String likeNews(int id, String newsId);
+
+    String disLikeNews(int id, String newsId);
+
+    List<Vos> quaryAllNewsAndUserByLogin(int id);
 }
 

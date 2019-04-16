@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.hankernews.mapper.CommentMapper">
+    <resultMap id="userAndComment" type="com.cskaoyan.hankernews.bean.Commentvo">
+        <association property="user" javaType="com.cskaoyan.hankernews.bean.User">
+            <id column="id" property="id"></id>
+            <result column="name" property="name"></result>
+            <result column="password" property="password"></result>
+            <result column="salt" property="salt"></result>
+            <result column="head_url" property="headUrl"></result>
+        </association>
+        <association property="comment" javaType="comment">
+            <result column="created_date" property="createdDate"></result>
+            <result column="content" property="content"></result>
+        </association>
+    </resultMap>
+<select id="findCommentAndUserByNewsId" resultMap="userAndComment">
+    SELECT `user`.id ,`user`.head_url,`comment`.created_date,`comment`.content
+    from `user` ,`comment` where `user`.id=`comment`.user_id
+    and `comment`.entity_id=#{id}
+</select>
+    
+</mapper>

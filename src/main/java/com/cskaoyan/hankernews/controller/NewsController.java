@@ -1,11 +1,14 @@
 package com.cskaoyan.hankernews.controller;
 
-import com.cskaoyan.hankernews.bean.User;
-import com.cskaoyan.hankernews.bean.Vos;
+import com.cskaoyan.hankernews.bean.*;
+import com.cskaoyan.hankernews.service.CommentService;
 import com.cskaoyan.hankernews.service.NewsService;
+import com.cskaoyan.hankernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,10 +27,26 @@ public class NewsController {
     @Autowired
     NewsService newsService;
 
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/")
+    public String home(){
+        return "redirect:/home";
+    }
+
+    @RequestMapping("/home")
     public String hello(Model model, HttpServletRequest request) {
-        List<Vos> vos = newsService.quaryAllNewsAndUser();
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        List<Vos> vos;
+        if(user==null){
+         vos = newsService.quaryAllNewsAndUser();
+        }else {
+            vos=newsService.quaryAllNewsAndUserByLogin(user.getId());
+        }
         String contextPath = request.getContextPath();
         model.addAttribute("contextPath", contextPath);
         model.addAttribute("vos", vos);
@@ -81,5 +100,46 @@ public class NewsController {
     }
 
 
+
+
+    @RequestMapping("/news/{id}")
+    public String detail(@PathVariable String id,Model model,HttpServletRequest request){
+        String contextPath = request.getContextPath();
+        News news=newsService.findNewsById(id);
+        User onwer =userService.findUserByNewsId(id);
+        model.addAttribute("contextPath",contextPath);
+        model.addAttribute("news",news);
+        model.addAttribute("like",0);
+        model.addAttribute("owner" ,onwer);
+        List<Commentvo> commentAndUser=commentService.findCommentAndUserByNewsId(id);
+        model.addAttribute("comments",commentAndUser);
+        return "detail";
+    }
+
+    @RequestMapping("like")
+    @ResponseBody
+    public Map like(HttpServletRequest request ,String newsId){
+        HashMap map=new HashMap();
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        int id = user.getId();
+        String i =newsService.likeNews(id,newsId);
+        map.put("code",0);
+        map.put("msg",i);
+        return map;
+    }
+
+    @RequestMapping("/dislike")
+    @ResponseBody
+    public  Map dislike(HttpServletRequest request ,String newsId){
+        HashMap map=new HashMap();
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        int id = user.getId();
+        String i =newsService.disLikeNews(id,newsId);
+        map.put("code",0);
+        map.put("msg",i);
+        return map;
+    }
 
 }
